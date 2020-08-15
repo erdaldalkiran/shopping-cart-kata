@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ShoppingCart.Business.Domain
 {
     public class Cart
     {
-        public ICollection<LineItem> LineItems { get; }
+        private Guid ID { get; }
+        private readonly List<LineItem> lineItems;
 
-        public Cart()
+        public Cart(Guid id)
         {
-            LineItems = new Collection<LineItem>();
+            ID = id;
+            lineItems = new List<LineItem>();
         }
 
         public IReadOnlyCollection<LineItem> GetLineItems()
         {
-            return (IReadOnlyCollection<LineItem>) LineItems;
+            return lineItems;
         }
 
         public void AddItem(Product product, int quantity)
@@ -25,26 +26,58 @@ namespace ShoppingCart.Business.Domain
 
             if (quantity < 1) throw new ArgumentException($"{nameof(quantity)} must be greater than 0.");
 
-            var inCartProductMaybe = LineItems.FirstOrDefault(l => l.Product.Id == product.Id);
+            var inCartProductMaybe = lineItems.FirstOrDefault(l => l.Product.ID == product.ID);
             if (inCartProductMaybe == null)
             {
-                LineItems.Add(new LineItem(product, quantity));
+                lineItems.Add(new LineItem(product, quantity));
                 return;
             }
 
             //ASSUMPTION: last added product has the most current information
-            LineItems.Remove(inCartProductMaybe);
+            lineItems.Remove(inCartProductMaybe);
 
             var inCartProductQuantity = inCartProductMaybe.Quantity;
-            LineItems.Add(new LineItem(product, quantity + inCartProductQuantity));
+            lineItems.Add(new LineItem(product, quantity + inCartProductQuantity));
         }
 
-
-        public Price TotalAmount()
+        public void ApplyCampaign(Campaign campaign)
         {
-            return LineItems
-                .Select(l => l.Product.Price * l.Quantity)
-                .Aggregate((acc, p) => acc + p);
+            var isApplicable = campaign.IsApplicable(this);
+            if (!isApplicable) return;
+            ReplaceCampaign(campaign);
         }
+
+        public decimal TotalAmount
+        {
+            get
+            {
+                var amount = lineItems
+                    .Select(l => l.TotalAmount)
+                    .Aggregate((acc, p) => acc + p);
+
+                return Math.Round(amount, 2);
+            }
+        }
+
+        public decimal CampaignDiscounts
+        {
+            get
+            {
+                var totalDiscount = lineItems
+                    .Select(l => l.TotalDiscount)
+                    .Aggregate((acc, p) => acc + p);
+
+                return Math.Round(totalDiscount, 2);
+            }
+        }
+
+        public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscounts, 2);
+
+        private void ReplaceCampaign(Campaign campaign)
+        {
+            lineItems.ForEach(l => l.ClearCampaign());
+            lineItems.ForEach(l => l.ApplyCampaign(campaign));
+        }
+
     }
 }

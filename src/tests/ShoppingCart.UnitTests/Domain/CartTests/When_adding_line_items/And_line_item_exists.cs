@@ -4,19 +4,19 @@ using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Domain;
 
-namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
+namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
 {
     internal class And_line_item_exists
     {
         private const int initialQuantity = 1;
 
         private const int quantity = 3;
-        private readonly Cart cart = new Cart();
+        private readonly Cart cart = new Cart(Guid.NewGuid());
 
         private readonly Product product =
-            new Product(Guid.NewGuid(), "Title", new Price(100m, Currency.TL), Guid.NewGuid());
+            new Product(Guid.NewGuid(), "Title", 100m, Guid.NewGuid());
 
-        private Price initialTotalAmount;
+        private decimal initialTotalAmount;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -31,7 +31,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
             var expectedQuantity = initialQuantity + quantity;
 
             var lineItems = cart.GetLineItems();
-            var retrievedLineItem = lineItems.Single(l => l.Product.Id == product.Id);
+            var retrievedLineItem = lineItems.Single(l => l.Product.ID == product.ID);
 
             retrievedLineItem.Quantity.Should().Be(expectedQuantity);
         }
@@ -41,13 +41,13 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
         {
             var expectedAmount = initialTotalAmount + product.Price * quantity;
 
-            cart.TotalAmount().Should().Be(expectedAmount);
+            cart.TotalAmount.Should().Be(expectedAmount);
         }
 
         private void SetupCart()
         {
             cart.AddItem(product, initialQuantity);
-            initialTotalAmount = cart.TotalAmount();
+            initialTotalAmount = cart.TotalAmount;
         }
     }
 }

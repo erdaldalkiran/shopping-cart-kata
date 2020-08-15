@@ -4,19 +4,19 @@ namespace ShoppingCart.Business.Domain
 {
     public class Product
     {
-        public Guid Id { get; }
+        public Guid ID { get; }
 
         public string Title { get; }
 
-        public Price Price { get; }
+        public decimal Price { get; }
 
         public Guid CategoryID { get; }
 
-        public Product(Guid id, string title, Price price, Guid categoryId)
+        public Product(Guid id, string title, decimal price, Guid categoryId)
         {
-            Id = id;
+            ID = id;
             Title = title;
-            Price = price;
+            Price = Math.Round(price, 2);
             CategoryID = categoryId;
         }
     }

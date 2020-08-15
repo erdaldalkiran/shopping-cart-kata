@@ -4,14 +4,14 @@ namespace ShoppingCart.Business.Domain
 {
     public class Coupon
     {
-        public Guid Id { get; }
+        public Guid ID { get; }
 
-        public Price MinimumCartAmount { get; }
+        public decimal MinimumCartAmount { get; }
 
-        public Coupon(Guid id, Guid categoryId, Price minimumCartAmount)
+        public Coupon(Guid id, Guid categoryId, decimal minimumCartAmount)
         {
-            Id = id;
-            MinimumCartAmount = minimumCartAmount;
+            ID = id;
+            MinimumCartAmount = Math.Round(minimumCartAmount, 2);
         }
     }
 }

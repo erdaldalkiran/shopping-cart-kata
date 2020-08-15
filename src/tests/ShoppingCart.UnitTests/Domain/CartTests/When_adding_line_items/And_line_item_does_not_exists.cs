@@ -4,15 +4,15 @@ using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Domain;
 
-namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
+namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
 {
     internal class And_line_item_does_not_exists
     {
         private const int quantity = 3;
-        private readonly Cart cart = new Cart();
+        private readonly Cart cart = new Cart(Guid.NewGuid());
 
         private readonly Product product =
-            new Product(Guid.NewGuid(), "Title", new Price(100m, Currency.TL), Guid.NewGuid());
+            new Product(Guid.NewGuid(), "Title", 100m, Guid.NewGuid());
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -25,7 +25,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
         {
             var lineItems = cart.GetLineItems();
 
-            var retrievedLineItem = lineItems.Single(l => l.Product.Id == product.Id);
+            var retrievedLineItem = lineItems.Single(l => l.Product.ID == product.ID);
 
             retrievedLineItem.Product.Should().BeEquivalentTo(product);
             retrievedLineItem.Quantity.Should().Be(quantity);
@@ -36,7 +36,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
         {
             var expectedAmount = product.Price * quantity;
 
-            cart.TotalAmount().Should().Be(expectedAmount);
+            cart.TotalAmount.Should().Be(expectedAmount);
         }
     }
 }

@@ -4,7 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Domain;
 
-namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
+namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
 {
     internal class And_product_price_is_updated
     {
@@ -14,13 +14,13 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
         private static readonly Guid productId = Guid.NewGuid();
         private static readonly Guid categoryId = Guid.NewGuid();
 
-        private readonly Cart cart = new Cart();
+        private readonly Cart cart = new Cart(Guid.NewGuid());
 
         private readonly Product initialProduct =
-            new Product(productId, "Title", new Price(100m, Currency.TL), categoryId);
+            new Product(productId, "Title", 100m, categoryId);
 
         private readonly Product updatedProduct =
-            new Product(productId, "Title", new Price(120m, Currency.TL), categoryId);
+            new Product(productId, "Title", 120m, categoryId);
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -35,7 +35,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
             var expectedQuantity = initialQuantity + quantity;
 
             var lineItems = cart.GetLineItems();
-            var retrievedLineItem = lineItems.Single(l => l.Product.Id == productId);
+            var retrievedLineItem = lineItems.Single(l => l.Product.ID == productId);
 
             retrievedLineItem.Quantity.Should().Be(expectedQuantity);
         }
@@ -47,7 +47,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_lineitems_to_cart
             var totalQuantity = initialQuantity + quantity;
             var expectedAmount = latestPrice * totalQuantity;
 
-            cart.TotalAmount().Should().Be(expectedAmount);
+            cart.TotalAmount.Should().Be(expectedAmount);
         }
 
         private void SetupCart()

@@ -4,7 +4,7 @@ namespace ShoppingCart.Business.Domain
 {
     public class Category
     {
-        public Guid Id { get; }
+        public Guid ID { get; }
 
         public Guid? ParentCategoryID { get; }
 
@@ -12,7 +12,7 @@ namespace ShoppingCart.Business.Domain
 
         public Category(Guid id, Guid parentCategoryID, string title)
         {
-            Id = id;
+            ID = id;
             ParentCategoryID = parentCategoryID;
             Title = title;
         }
