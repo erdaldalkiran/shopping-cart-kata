@@ -10,17 +10,17 @@ namespace ShoppingCart.Business.Domain
 
         public Guid CategoryID { get; }
 
-        public int MinimumProductCount { get; }
+        public int MinimumItemCount { get; }
 
         public DiscountType Type { get; }
 
         public decimal Rate { get; }
 
-        public Campaign(Guid id, Guid categoryId, int minimumProductCount, DiscountType type, decimal rate)
+        public Campaign(Guid id, Guid categoryId, int minimumItemCount, DiscountType type, decimal rate)
         {
             ID = id;
             CategoryID = categoryId;
-            MinimumProductCount = minimumProductCount;
+            MinimumItemCount = minimumItemCount;
             Type = type;
             Rate = Math.Round(rate, 2);
         }
@@ -28,33 +28,26 @@ namespace ShoppingCart.Business.Domain
         public decimal? CalculateDiscountAmount(Cart cart)
         {
             var isApplicable = IsApplicable(cart);
-            if (!isApplicable)
-            {
-                return null;
-            }
+            if (!isApplicable) return null;
 
             var items = GetCampaignApplicableLineItems(cart);
 
-            var sum = items.Sum(i => DiscountAmountCalculator.Strategies[Type](i, Rate));
+            var sum = items.Sum(i => CampaignDiscountAmountCalculator.Strategies[Type](i, Rate));
             return Math.Round(sum, 2);
         }
 
         public decimal? CalculateDiscountAmount(LineItem lineItem)
         {
             var isApplicable = IsApplicable(lineItem);
-            if (!isApplicable)
-            {
-                return null;
-            }
+            if (!isApplicable) return null;
 
-            return DiscountAmountCalculator.Strategies[Type](lineItem, Rate);
+            return CampaignDiscountAmountCalculator.Strategies[Type](lineItem, Rate);
         }
 
         public bool IsApplicable(Cart cart)
         {
             var items = GetCampaignApplicableLineItems(cart);
-            var minimumCountRequirement = DoesCartContainMinimumProductCount(items);
-
+            var minimumCountRequirement = DoesCartContainMinimumItemCount(items);
 
             return minimumCountRequirement;
         }
@@ -63,10 +56,7 @@ namespace ShoppingCart.Business.Domain
         {
             var categoryRequirement = lineItem.Product.CategoryID == CategoryID;
             var priceRequirement = true;
-            if (Type == DiscountType.Amount)
-            {
-                priceRequirement = lineItem.Product.Price > Rate;
-            }
+            if (Type == DiscountType.Amount) priceRequirement = lineItem.Product.Price > Rate;
 
             return categoryRequirement & priceRequirement;
         }
@@ -76,14 +66,13 @@ namespace ShoppingCart.Business.Domain
             return cart.GetLineItems().Where(IsApplicable).ToList();
         }
 
-        private bool DoesCartContainMinimumProductCount(List<LineItem> items)
+        private bool DoesCartContainMinimumItemCount(List<LineItem> items)
         {
-            var itemCount = items.Count;
-            if (itemCount >= MinimumProductCount) return true;
+            var itemCount = items.Sum(i => i.Quantity);
+            if (itemCount > MinimumItemCount) return true;
 
             return false;
         }
-
     }
 
     public enum DiscountType
@@ -93,7 +82,7 @@ namespace ShoppingCart.Business.Domain
         Amount
     }
 
-    public static class DiscountAmountCalculator
+    public static class CampaignDiscountAmountCalculator
     {
         public static Dictionary<DiscountType, Func<LineItem, decimal, decimal>> Strategies =
             new Dictionary<DiscountType, Func<LineItem, decimal, decimal>>

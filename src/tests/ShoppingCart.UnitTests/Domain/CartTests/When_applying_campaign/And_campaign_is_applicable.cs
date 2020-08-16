@@ -7,10 +7,10 @@ using ShoppingCart.Business.Domain;
 namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
 {
     [Description("campaign is applicable to two line items.")]
-    class And_campaign_is_applicable
+    internal class And_campaign_is_applicable
     {
         private Cart cart;
-        private Guid categoryID = Guid.NewGuid();
+        private readonly Guid categoryID = Guid.NewGuid();
         private Campaign campaign;
 
         [OneTimeSetUp]
@@ -20,17 +20,17 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         }
 
         [Test]
-        public void campaign_not_applied_line_items_total_discount_should_be_0()
+        public void campaign_not_applied_line_items_campaign_discount_should_be_0()
         {
             cart
                 .GetLineItems()
                 .Where(l => l.Product.CategoryID != categoryID)
                 .ToList()
-                .ForEach(l => l.TotalDiscount.Should().Be(0m));
+                .ForEach(l => l.CampaignDiscount.Should().Be(0m));
         }
 
         [Test]
-        public void campaign_applied_line_items_total_discount_should_be_correct()
+        public void campaign_applied_line_items_campaign_discount_should_be_correct()
         {
             var items = cart
                 .GetLineItems()
@@ -40,7 +40,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
             items.ForEach(l =>
             {
                 var expectedDiscountAmount = Math.Round(l.Product.Price * l.Quantity * campaign.Rate);
-                l.TotalDiscount.Should().Be(expectedDiscountAmount);
+                l.CampaignDiscount.Should().Be(expectedDiscountAmount);
             });
         }
 
@@ -61,10 +61,10 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
                 .Where(l => l.Product.CategoryID == categoryID)
                 .ToList();
             var expectedTotalDiscountAmount = campaignAppliedItems.Sum(l =>
-             {
-                 var discountAmount = Math.Round(l.Product.Price * l.Quantity * campaign.Rate);
-                 return Math.Round(discountAmount, 2);
-             });
+            {
+                var discountAmount = Math.Round(l.Product.Price * l.Quantity * campaign.Rate);
+                return Math.Round(discountAmount, 2);
+            });
 
             cart.TotalAmountAfterDiscounts.Should()
                 .Be(Math.Round(expectedTotalAmount - expectedTotalDiscountAmount, 2));
@@ -84,7 +84,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
                 return Math.Round(discountAmount, 2);
             });
 
-            cart.CampaignDiscounts.Should().Be(expectedTotalDiscountAmount);
+            cart.CampaignDiscount.Should().Be(expectedTotalDiscountAmount);
         }
 
         private void SetupData()

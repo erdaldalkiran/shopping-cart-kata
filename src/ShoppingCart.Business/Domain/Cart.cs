@@ -8,6 +8,7 @@ namespace ShoppingCart.Business.Domain
     {
         private Guid ID { get; }
         private readonly List<LineItem> lineItems;
+        private Coupon appliedCoupon;
 
         public Cart(Guid id)
         {
@@ -42,9 +43,24 @@ namespace ShoppingCart.Business.Domain
 
         public void ApplyCampaign(Campaign campaign)
         {
+            lineItems.ForEach(l => l.ClearCampaign());
+
             var isApplicable = campaign.IsApplicable(this);
             if (!isApplicable) return;
-            ReplaceCampaign(campaign);
+
+            lineItems.ForEach(l => l.ApplyCampaign(campaign));
+
+            if (appliedCoupon != null) ApplyCoupon(appliedCoupon);
+        }
+
+        public void ApplyCoupon(Coupon coupon)
+        {
+            ClearCoupon();
+            var isApplicable = coupon.IsApplicable(this);
+            if (!isApplicable) return;
+            appliedCoupon = coupon;
+            CouponDiscount = coupon.CalculateDiscountAmount(this).Value;
+            DistributeCouponDiscountToLineItems();
         }
 
         public decimal TotalAmount
@@ -59,25 +75,46 @@ namespace ShoppingCart.Business.Domain
             }
         }
 
-        public decimal CampaignDiscounts
+        public decimal CampaignDiscount
         {
             get
             {
                 var totalDiscount = lineItems
-                    .Select(l => l.TotalDiscount)
+                    .Select(l => l.CampaignDiscount)
                     .Aggregate((acc, p) => acc + p);
 
                 return Math.Round(totalDiscount, 2);
             }
         }
 
-        public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscounts, 2);
+        public decimal CouponDiscount { get; private set; }
 
-        private void ReplaceCampaign(Campaign campaign)
+        public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscount - CouponDiscount, 2);
+
+        public decimal TotalAmountAfterCampaign => Math.Round(TotalAmount - CampaignDiscount, 2);
+
+        private void ClearCoupon()
         {
-            lineItems.ForEach(l => l.ClearCampaign());
-            lineItems.ForEach(l => l.ApplyCampaign(campaign));
+            appliedCoupon = null;
+            CouponDiscount = 0m;
+            lineItems.ForEach(l => l.ClearCouponDiscount());
         }
 
+        private void DistributeCouponDiscountToLineItems()
+        {
+            var remainingAmount = CouponDiscount;
+            foreach (var lineItem in lineItems)
+            {
+                if (lineItem.TotalAmountAfterCampaignDiscount >= remainingAmount)
+                {
+                    lineItem.SetCouponDiscount(remainingAmount);
+                    remainingAmount = 0;
+                    break;
+                }
+
+                remainingAmount -= lineItem.TotalAmountAfterCampaignDiscount;
+                lineItem.SetCouponDiscount(lineItem.TotalAmountAfterCampaignDiscount);
+            }
+        }
     }
 }

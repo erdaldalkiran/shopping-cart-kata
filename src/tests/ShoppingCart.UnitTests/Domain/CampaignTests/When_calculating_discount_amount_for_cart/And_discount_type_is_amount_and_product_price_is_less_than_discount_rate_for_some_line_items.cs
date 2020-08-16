@@ -14,13 +14,13 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_calculating_discount_
             var categoryID = Guid.NewGuid();
             var cart = new Cart(Guid.NewGuid());
             cart.AddItem(new Product(Guid.NewGuid(), "TitleA", 10m, categoryID), 1);
-            cart.AddItem(new Product(Guid.NewGuid(), "TitleB", 20m, categoryID), 1);
+            cart.AddItem(new Product(Guid.NewGuid(), "TitleB", 20m, categoryID), 2);
 
             var campaign = new Campaign(Guid.NewGuid(), categoryID, 1, DiscountType.Amount, 15m);
 
             var discountAmount = campaign.CalculateDiscountAmount(cart);
 
-            discountAmount.Value.Should().Be(15m);
+            discountAmount.Value.Should().Be(30m);
         }
     }
 }
