@@ -6,7 +6,7 @@ namespace ShoppingCart.Business.Cart
 {
     public class Cart
     {
-        private Guid ID { get; }
+        public Guid ID { get; }
         private readonly List<LineItem> lineItems;
         private Coupon.Coupon appliedCoupon;
         private decimal deliveryCost;
@@ -16,11 +16,39 @@ namespace ShoppingCart.Business.Cart
             ID = id;
             lineItems = new List<LineItem>();
         }
+        public IReadOnlyCollection<LineItem> LineItems => lineItems;
 
-        public IReadOnlyCollection<LineItem> GetLineItems()
+        public decimal TotalAmount
         {
-            return lineItems;
+            get
+            {
+                var amount = lineItems
+                    .Select(l => l.TotalAmount)
+                    .Aggregate(0m, (acc, p) => acc + p);
+
+                return Math.Round(amount, 2);
+            }
         }
+
+        public decimal CampaignDiscount
+        {
+            get
+            {
+                var totalDiscount = lineItems
+                    .Select(l => l.CampaignDiscount)
+                    .Aggregate(0m, (acc, p) => acc + p);
+
+                return Math.Round(totalDiscount, 2);
+            }
+        }
+
+        public decimal CouponDiscount { get; private set; }
+
+        public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscount - CouponDiscount, 2);
+
+        public decimal TotalAmountAfterCampaign => Math.Round(TotalAmount - CampaignDiscount, 2);
+        
+        public decimal DeliveryCost => deliveryCost;
 
         public int GetLineItemsCount()
         {
@@ -85,40 +113,9 @@ namespace ShoppingCart.Business.Cart
             deliveryCost = Math.Round(cost, 2);
         }
 
-        public decimal GetDeliveryCost()
-        {
-            return deliveryCost;
-        }
+      
 
-        public decimal TotalAmount
-        {
-            get
-            {
-                var amount = lineItems
-                    .Select(l => l.TotalAmount)
-                    .Aggregate((acc, p) => acc + p);
-
-                return Math.Round(amount, 2);
-            }
-        }
-
-        public decimal CampaignDiscount
-        {
-            get
-            {
-                var totalDiscount = lineItems
-                    .Select(l => l.CampaignDiscount)
-                    .Aggregate((acc, p) => acc + p);
-
-                return Math.Round(totalDiscount, 2);
-            }
-        }
-
-        public decimal CouponDiscount { get; private set; }
-
-        public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscount - CouponDiscount, 2);
-
-        public decimal TotalAmountAfterCampaign => Math.Round(TotalAmount - CampaignDiscount, 2);
+      
 
         private void ClearCoupon()
         {

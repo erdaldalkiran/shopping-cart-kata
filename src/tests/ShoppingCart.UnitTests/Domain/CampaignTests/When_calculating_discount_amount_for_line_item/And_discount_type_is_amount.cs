@@ -16,7 +16,7 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_calculating_discount_
             var categoryID = Guid.NewGuid();
             var cart = new Cart(Guid.NewGuid());
             cart.AddItem(new Product(Guid.NewGuid(), "TitleA", 30m, categoryID), 4);
-            var lineItem = cart.GetLineItems().First();
+            var lineItem = cart.LineItems.First();
 
             var campaign = new Campaign(Guid.NewGuid(), categoryID, 1, DiscountType.Amount, 10m);
 

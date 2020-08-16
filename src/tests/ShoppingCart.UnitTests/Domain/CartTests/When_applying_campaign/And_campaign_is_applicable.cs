@@ -25,7 +25,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         public void campaign_not_applied_line_items_campaign_discount_should_be_0()
         {
             cart
-                .GetLineItems()
+                .LineItems
                 .Where(l => l.Product.CategoryID != categoryID)
                 .ToList()
                 .ForEach(l => l.CampaignDiscount.Should().Be(0m));
@@ -35,7 +35,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         public void campaign_applied_line_items_campaign_discount_should_be_correct()
         {
             var items = cart
-                .GetLineItems()
+                .LineItems
                 .Where(l => l.Product.CategoryID == categoryID)
                 .ToList();
 
@@ -50,7 +50,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         public void cart_total_amount_after_discounts_should_be_correct()
         {
             var items = cart
-                .GetLineItems()
+                .LineItems
                 .ToList();
 
             var expectedTotalAmount = items.Sum(l =>
@@ -76,7 +76,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         public void cart_campaign_discounts_should_be_correct()
         {
             var campaignAppliedItems = cart
-                .GetLineItems()
+                .LineItems
                 .Where(l => l.Product.CategoryID == categoryID)
                 .ToList();
 

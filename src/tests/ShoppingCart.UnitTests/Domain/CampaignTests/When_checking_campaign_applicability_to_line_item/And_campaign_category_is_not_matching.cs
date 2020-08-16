@@ -15,7 +15,7 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_checking_campaign_app
         {
             var cart = new Cart(Guid.NewGuid());
             cart.AddItem(new Product(Guid.NewGuid(), "TitleA", 100m, Guid.NewGuid()), 3);
-            var lineItem = cart.GetLineItems().First();
+            var lineItem = cart.LineItems.First();
 
             var campaign = new Campaign(Guid.NewGuid(), Guid.NewGuid(), 1, DiscountType.Amount, 5m);
 

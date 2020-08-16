@@ -2,11 +2,13 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ShoppingCart.Business.Campaign;
+using ShoppingCart.Business.Cart;
 using ShoppingCart.Business.Category;
 using ShoppingCart.Business.Coupon;
 using ShoppingCart.Business.Product;
 using ShoppingCart.Business.Validation;
 using ShoppingCart.Infra.Persistence.Campaign;
+using ShoppingCart.Infra.Persistence.Cart;
 using ShoppingCart.Infra.Persistence.Category;
 using ShoppingCart.Infra.Persistence.Coupon;
 using ShoppingCart.Infra.Persistence.Product;
@@ -44,6 +46,10 @@ namespace ShoppingCart.API.Config
             var campaigns = new List<Business.Campaign.Campaign>();
             services.AddSingleton<ICampaignReader>(sp => new InMemoryCampaignReader(campaigns));
             services.AddSingleton<ICampaignRepository>(sp => new InMemoryCampaignRepository(campaigns));
+            
+            var carts = new List<Business.Cart.Cart>();
+            services.AddSingleton<ICartReader>(sp => new InMemoryCartReader(carts));
+            services.AddSingleton<ICartRepository>(sp => new InMemoryCartRepository(carts));
 
 
             services.AddMediatR(typeof(CreateCategoryCommand).Assembly);

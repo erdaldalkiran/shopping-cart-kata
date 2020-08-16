@@ -31,7 +31,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
         {
             var expectedQuantity = initialQuantity + quantity;
 
-            var lineItems = cart.GetLineItems();
+            var lineItems = cart.LineItems;
             var retrievedLineItem = lineItems.Single(l => l.Product.ID == product.ID);
 
             retrievedLineItem.Quantity.Should().Be(expectedQuantity);

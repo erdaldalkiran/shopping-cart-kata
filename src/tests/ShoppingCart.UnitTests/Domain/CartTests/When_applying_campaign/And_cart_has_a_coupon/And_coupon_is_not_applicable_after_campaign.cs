@@ -29,7 +29,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign.And_car
         public void line_items_coupon_discount_should_be_correct()
         {
             var items = cart
-                .GetLineItems()
+                .LineItems
                 .ToList();
 
             items.All(i => i.CouponDiscount == 0m).Should().BeTrue();
@@ -39,7 +39,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign.And_car
         public void line_items_campaign_discount_should_be_correct()
         {
             var items = cart
-                .GetLineItems()
+                .LineItems
                 .ToList();
 
             items.All(i => i.CampaignDiscount == i.Quantity * campaign.Rate).Should().BeTrue();

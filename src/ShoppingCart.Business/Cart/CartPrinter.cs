@@ -21,7 +21,7 @@ namespace ShoppingCart.Business.Cart
 
         public string Print(Cart cart)
         {
-            var lineItems = cart.GetLineItems().OrderBy(l => l.Product.CategoryID).ToList();
+            var lineItems = cart.LineItems.OrderBy(l => l.Product.CategoryID).ToList();
             var distinctCategories = lineItems.Select(l => l.Product.CategoryID).Distinct().ToList();
             var categories = categoryReader.GetByIDs(distinctCategories)
                 .ToDictionary(c => c.ID, c => c.Title);
@@ -42,7 +42,7 @@ namespace ShoppingCart.Business.Cart
                 sb.AppendLine(line);
             });
 
-            sb.AppendLine(string.Format(CartFormat, cart.TotalAmountAfterDiscounts, cart.GetDeliveryCost()));
+            sb.AppendLine(string.Format(CartFormat, cart.TotalAmountAfterDiscounts, cart.DeliveryCost));
 
             return sb.ToString();
         }

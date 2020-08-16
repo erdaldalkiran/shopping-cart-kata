@@ -64,7 +64,7 @@ namespace ShoppingCart.Business.Campaign
 
         private List<LineItem> GetCampaignApplicableLineItems(Cart.Cart cart)
         {
-            return cart.GetLineItems().Where(IsApplicable).ToList();
+            return cart.LineItems.Where(IsApplicable).ToList();
         }
 
         private bool DoesCartContainMinimumItemCount(List<LineItem> items)

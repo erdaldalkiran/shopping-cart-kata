@@ -53,7 +53,7 @@ namespace ShoppingCart.Business.Campaign
 
         private IList<Campaign> GetApplicableCampaigns(Cart.Cart cart)
         {
-            var categoryIDs = cart.GetLineItems().Select(l => l.Product.CategoryID).Distinct().ToList();
+            var categoryIDs = cart.LineItems.Select(l => l.Product.CategoryID).Distinct().ToList();
             return campaignReader.GetByCategories(categoryIDs).ToList();
         }
     }

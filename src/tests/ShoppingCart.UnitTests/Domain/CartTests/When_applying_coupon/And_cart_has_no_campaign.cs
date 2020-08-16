@@ -24,7 +24,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_coupon
         public void line_items_coupon_discount_should_be_correct()
         {
             var items = cart
-                .GetLineItems()
+                .LineItems
                 .ToList();
 
             items.Where(i => i.CouponDiscount == coupon.Rate).Should().HaveCount(1);

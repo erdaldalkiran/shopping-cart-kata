@@ -21,7 +21,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         [Test]
         public void line_items_campaign_discount_should_be_0()
         {
-            cart.GetLineItems().ToList()
+            cart.LineItems.ToList()
                 .ForEach(l => l.CampaignDiscount.Should().Be(0m));
         }
 
