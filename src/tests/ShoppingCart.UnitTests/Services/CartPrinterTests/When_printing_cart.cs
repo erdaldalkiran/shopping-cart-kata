@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using ShoppingCart.Business.Domain;
-using ShoppingCart.Business.Readers;
-using ShoppingCart.Business.Services;
+using ShoppingCart.Business.Campaign;
+using ShoppingCart.Business.Cart;
+using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Coupon;
+using ShoppingCart.Business.Delivery;
 
 namespace ShoppingCart.UnitTests.Services.CartPrinterTests
 {

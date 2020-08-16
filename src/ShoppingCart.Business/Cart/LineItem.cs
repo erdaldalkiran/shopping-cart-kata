@@ -1,12 +1,13 @@
 ﻿using System;
+using ShoppingCart.Business.Catalog;
 
-namespace ShoppingCart.Business.Domain
+namespace ShoppingCart.Business.Cart
 {
     public class LineItem
     {
         public Product Product { get; }
         public int Quantity { get; }
-        public Campaign AppliedCampaign { get; private set; }
+        public Campaign.Campaign AppliedCampaign { get; private set; }
         public decimal CampaignDiscount => AppliedCampaign?.CalculateDiscountAmount(this) ?? 0m;
         public decimal CouponDiscount { get; private set; }
         public decimal TotalDiscount => Math.Round(CampaignDiscount + CouponDiscount, 2);
@@ -25,7 +26,7 @@ namespace ShoppingCart.Business.Domain
             AppliedCampaign = null;
         }
 
-        public void ApplyCampaign(Campaign campaign)
+        public void ApplyCampaign(Campaign.Campaign campaign)
         {
             var isApplicable = campaign.IsApplicable(this);
             if (!isApplicable) return;

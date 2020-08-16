@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ShoppingCart.Business.Catalog;
 
-namespace ShoppingCart.Business.Domain
+namespace ShoppingCart.Business.Cart
 {
     public class Cart
     {
         private Guid ID { get; }
         private readonly List<LineItem> lineItems;
-        private Coupon appliedCoupon;
+        private Coupon.Coupon appliedCoupon;
         private decimal deliveryCost;
 
         public Cart(Guid id)
@@ -52,7 +53,7 @@ namespace ShoppingCart.Business.Domain
             lineItems.Add(new LineItem(product, quantity + inCartProductQuantity));
         }
 
-        public void ApplyCampaign(Campaign campaign)
+        public void ApplyCampaign(Campaign.Campaign campaign)
         {
             if (campaign == null) throw new ArgumentNullException($"{nameof(campaign)} cannot be null.");
 
@@ -66,7 +67,7 @@ namespace ShoppingCart.Business.Domain
             if (appliedCoupon != null) ApplyCoupon(appliedCoupon);
         }
 
-        public void ApplyCoupon(Coupon coupon)
+        public void ApplyCoupon(Coupon.Coupon coupon)
         {
             if (coupon == null) throw new ArgumentNullException($"{nameof(coupon)} cannot be null.");
 

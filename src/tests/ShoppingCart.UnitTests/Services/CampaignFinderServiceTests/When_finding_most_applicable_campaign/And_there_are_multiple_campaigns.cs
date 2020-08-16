@@ -4,9 +4,9 @@ using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using ShoppingCart.Business.Domain;
-using ShoppingCart.Business.Readers;
-using ShoppingCart.Business.Services;
+using ShoppingCart.Business.Campaign;
+using ShoppingCart.Business.Cart;
+using ShoppingCart.Business.Catalog;
 
 namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_finding_most_applicable_campaign
 {

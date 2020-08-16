@@ -1,7 +1,6 @@
 ﻿using System;
-using ShoppingCart.Business.Domain;
 
-namespace ShoppingCart.Business.Services
+namespace ShoppingCart.Business.Delivery
 {
     public class DeliveryCostCalculator
     {
@@ -15,7 +14,7 @@ namespace ShoppingCart.Business.Services
             CostPerProduct = costPerProduct;
         }
 
-        public decimal CalculateFor(Cart cart)
+        public decimal CalculateFor(Cart.Cart cart)
         {
             var distinctProductCount = cart.GetLineItemsCount();
             var distinctCategoryCount = cart.GetDistinctCategoriesCount();

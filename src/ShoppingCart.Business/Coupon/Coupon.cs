@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ShoppingCart.Business.Campaign;
 
-namespace ShoppingCart.Business.Domain
+namespace ShoppingCart.Business.Coupon
 {
     public class Coupon
     {
@@ -21,14 +22,14 @@ namespace ShoppingCart.Business.Domain
             Rate = rate;
         }
 
-        public bool IsApplicable(Cart cart)
+        public bool IsApplicable(Cart.Cart cart)
         {
             var cartAmount = cart.TotalAmountAfterCampaign;
 
             return cartAmount > MinimumCartAmount;
         }
 
-        public decimal? CalculateDiscountAmount(Cart cart)
+        public decimal? CalculateDiscountAmount(Cart.Cart cart)
         {
             var isApplicable = IsApplicable(cart);
             if (!isApplicable) return null;

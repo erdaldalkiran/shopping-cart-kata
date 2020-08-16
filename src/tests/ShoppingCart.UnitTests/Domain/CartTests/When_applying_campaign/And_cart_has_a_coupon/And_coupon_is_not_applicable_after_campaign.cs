@@ -2,7 +2,10 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using ShoppingCart.Business.Domain;
+using ShoppingCart.Business.Campaign;
+using ShoppingCart.Business.Cart;
+using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Coupon;
 
 namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign.And_cart_has_a_coupon
 {

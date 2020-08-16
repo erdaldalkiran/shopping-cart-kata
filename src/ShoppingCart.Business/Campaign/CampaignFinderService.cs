@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ShoppingCart.Business.Domain;
-using ShoppingCart.Business.Readers;
 
-namespace ShoppingCart.Business.Services
+namespace ShoppingCart.Business.Campaign
 {
     public interface ICampaignFinderService
     {
-        Campaign FindMostApplicableCampaign(Cart cart);
+        Campaign FindMostApplicableCampaign(Cart.Cart cart);
     }
 
     public class CampaignFinderService : ICampaignFinderService
@@ -21,7 +19,7 @@ namespace ShoppingCart.Business.Services
             this.campaignReader = campaignReader;
         }
 
-        public Campaign FindMostApplicableCampaign(Cart cart)
+        public Campaign FindMostApplicableCampaign(Cart.Cart cart)
         {
             var applicableCampaigns = GetApplicableCampaigns(cart);
 
@@ -42,7 +40,7 @@ namespace ShoppingCart.Business.Services
         }
 
         private static ConcurrentBag<KeyValuePair<Campaign, decimal?>> SimulateCampaigns(
-            IList<Campaign> applicableCampaigns, Cart cart)
+            IList<Campaign> applicableCampaigns, Cart.Cart cart)
         {
             var results = new ConcurrentBag<KeyValuePair<Campaign, decimal?>>();
             Parallel.ForEach(applicableCampaigns, campaign =>
@@ -53,7 +51,7 @@ namespace ShoppingCart.Business.Services
             return results;
         }
 
-        private IList<Campaign> GetApplicableCampaigns(Cart cart)
+        private IList<Campaign> GetApplicableCampaigns(Cart.Cart cart)
         {
             var categoryIDs = cart.GetLineItems().Select(l => l.Product.CategoryID).Distinct().ToList();
             return campaignReader.GetByCategories(categoryIDs).ToList();

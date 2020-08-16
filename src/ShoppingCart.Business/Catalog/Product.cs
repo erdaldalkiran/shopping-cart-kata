@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShoppingCart.Business.Domain
+namespace ShoppingCart.Business.Catalog
 {
     public class Product
     {

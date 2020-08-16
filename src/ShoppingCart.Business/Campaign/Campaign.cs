@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ShoppingCart.Business.Cart;
 
-namespace ShoppingCart.Business.Domain
+namespace ShoppingCart.Business.Campaign
 {
     public class Campaign
     {
@@ -25,7 +26,7 @@ namespace ShoppingCart.Business.Domain
             Rate = Math.Round(rate, 2);
         }
 
-        public decimal? CalculateDiscountAmount(Cart cart)
+        public decimal? CalculateDiscountAmount(Cart.Cart cart)
         {
             var isApplicable = IsApplicable(cart);
             if (!isApplicable) return null;
@@ -44,7 +45,7 @@ namespace ShoppingCart.Business.Domain
             return CampaignDiscountAmountCalculator.Strategies[Type](lineItem, Rate);
         }
 
-        public bool IsApplicable(Cart cart)
+        public bool IsApplicable(Cart.Cart cart)
         {
             var items = GetCampaignApplicableLineItems(cart);
             var minimumCountRequirement = DoesCartContainMinimumItemCount(items);
@@ -61,7 +62,7 @@ namespace ShoppingCart.Business.Domain
             return categoryRequirement & priceRequirement;
         }
 
-        private List<LineItem> GetCampaignApplicableLineItems(Cart cart)
+        private List<LineItem> GetCampaignApplicableLineItems(Cart.Cart cart)
         {
             return cart.GetLineItems().Where(IsApplicable).ToList();
         }

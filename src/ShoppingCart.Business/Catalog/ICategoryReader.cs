@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ShoppingCart.Business.Domain;
 
-namespace ShoppingCart.Business.Readers
+namespace ShoppingCart.Business.Catalog
 {
     public interface ICategoryReader
     {

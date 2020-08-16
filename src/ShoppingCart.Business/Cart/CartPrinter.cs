@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using System.Text;
-using ShoppingCart.Business.Domain;
-using ShoppingCart.Business.Readers;
+using ShoppingCart.Business.Catalog;
 
-namespace ShoppingCart.Business.Services
+namespace ShoppingCart.Business.Cart
 {
     public class CartPrinter
     {

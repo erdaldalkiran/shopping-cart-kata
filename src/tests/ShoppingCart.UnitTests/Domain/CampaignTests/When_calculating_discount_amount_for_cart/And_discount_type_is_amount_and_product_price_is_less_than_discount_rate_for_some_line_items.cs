@@ -1,7 +1,9 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using ShoppingCart.Business.Domain;
+using ShoppingCart.Business.Campaign;
+using ShoppingCart.Business.Cart;
+using ShoppingCart.Business.Catalog;
 
 namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_calculating_discount_amount_for_cart
 {
