@@ -5,9 +5,10 @@ using Moq;
 using NUnit.Framework;
 using ShoppingCart.Business.Campaign;
 using ShoppingCart.Business.Cart;
-using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Category;
 using ShoppingCart.Business.Coupon;
 using ShoppingCart.Business.Delivery;
+using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Services.CartPrinterTests
 {

@@ -1,8 +1,9 @@
 ﻿using System;
+using MediatR;
 
-namespace ShoppingCart.Business.Catalog
+namespace ShoppingCart.Business.Product
 {
-    public class Product
+    public class CreateProductCommand : IRequest
     {
         public Guid ID { get; }
 
@@ -12,7 +13,7 @@ namespace ShoppingCart.Business.Catalog
 
         public Guid CategoryID { get; }
 
-        public Product(Guid id, string title, decimal price, Guid categoryId)
+        public CreateProductCommand(Guid id, string title, decimal price, Guid categoryId)
         {
             ID = id;
             Title = title;

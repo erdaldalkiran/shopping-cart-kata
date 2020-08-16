@@ -2,8 +2,8 @@
 using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Cart;
-using ShoppingCart.Business.Catalog;
 using ShoppingCart.Business.Delivery;
+using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Services.DeliveryCostCalculatorTests
 {

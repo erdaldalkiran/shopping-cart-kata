@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ShoppingCart.Business.Catalog;
 
 namespace ShoppingCart.Business.Cart
 {
@@ -33,7 +32,7 @@ namespace ShoppingCart.Business.Cart
             return lineItems.Select(l => l.Product.CategoryID).Distinct().Count();
         }
 
-        public void AddItem(Product product, int quantity)
+        public void AddItem(Product.Product product, int quantity)
         {
             if (product == null) throw new ArgumentNullException($"{nameof(product)} cannot be null.");
 

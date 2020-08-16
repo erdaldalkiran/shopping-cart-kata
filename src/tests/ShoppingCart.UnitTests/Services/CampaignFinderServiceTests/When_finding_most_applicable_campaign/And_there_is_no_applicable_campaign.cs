@@ -6,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using ShoppingCart.Business.Campaign;
 using ShoppingCart.Business.Cart;
-using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_finding_most_applicable_campaign
 {

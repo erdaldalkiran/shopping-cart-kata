@@ -3,7 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Cart;
-using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
 {

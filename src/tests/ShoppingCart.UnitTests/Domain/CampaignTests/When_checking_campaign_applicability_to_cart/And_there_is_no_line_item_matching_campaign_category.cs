@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Campaign;
 using ShoppingCart.Business.Cart;
-using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_checking_campaign_applicability_to_cart
 {

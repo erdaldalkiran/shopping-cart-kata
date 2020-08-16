@@ -1,8 +1,9 @@
 ﻿using System;
+using MediatR;
 
-namespace ShoppingCart.Business.Catalog
+namespace ShoppingCart.Business.Category
 {
-    public class Category
+    public class CreateCategoryCommand : IRequest
     {
         public Guid ID { get; }
 
@@ -10,7 +11,7 @@ namespace ShoppingCart.Business.Catalog
 
         public string Title { get; }
 
-        public Category(Guid id, Guid parentCategoryID, string title)
+        public CreateCategoryCommand(Guid id, Guid? parentCategoryID, string title)
         {
             ID = id;
             ParentCategoryID = parentCategoryID;

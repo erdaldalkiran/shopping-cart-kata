@@ -3,8 +3,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using ShoppingCart.Business.Campaign;
 using ShoppingCart.Business.Cart;
-using ShoppingCart.Business.Catalog;
 using ShoppingCart.Business.Coupon;
+using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Domain.CouponTests.When_checking_coupon_applicability_to_cart
 {

@@ -1,11 +1,10 @@
 ﻿using System;
-using ShoppingCart.Business.Catalog;
 
 namespace ShoppingCart.Business.Cart
 {
     public class LineItem
     {
-        public Product Product { get; }
+        public Product.Product Product { get; }
         public int Quantity { get; }
         public Campaign.Campaign AppliedCampaign { get; private set; }
         public decimal CampaignDiscount => AppliedCampaign?.CalculateDiscountAmount(this) ?? 0m;
@@ -15,7 +14,7 @@ namespace ShoppingCart.Business.Cart
         public decimal TotalAmountAfterCampaignDiscount => Math.Round(TotalAmount - CampaignDiscount, 2);
         public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - TotalDiscount, 2);
 
-        public LineItem(Product product, int quantity)
+        public LineItem(Product.Product product, int quantity)
         {
             Product = product;
             Quantity = quantity;

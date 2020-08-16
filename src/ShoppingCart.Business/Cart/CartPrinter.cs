@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
-using ShoppingCart.Business.Catalog;
+using ShoppingCart.Business.Category;
 
 namespace ShoppingCart.Business.Cart
 {
