@@ -85,7 +85,7 @@ namespace ShoppingCart.Business.Domain
             deliveryCost = Math.Round(cost, 2);
         }
 
-        public decimal GetDeliveryCost(decimal cost)
+        public decimal GetDeliveryCost()
         {
             return deliveryCost;
         }

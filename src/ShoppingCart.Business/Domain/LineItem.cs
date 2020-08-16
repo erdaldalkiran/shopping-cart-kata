@@ -11,7 +11,8 @@ namespace ShoppingCart.Business.Domain
         public decimal CouponDiscount { get; private set; }
         public decimal TotalDiscount => Math.Round(CampaignDiscount + CouponDiscount, 2);
         public decimal TotalAmount => Math.Round(Product.Price * Quantity, 2);
-        public decimal TotalAmountAfterCampaignDiscount => TotalAmount - CampaignDiscount;
+        public decimal TotalAmountAfterCampaignDiscount => Math.Round(TotalAmount - CampaignDiscount, 2);
+        public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - TotalDiscount, 2);
 
         public LineItem(Product product, int quantity)
         {
