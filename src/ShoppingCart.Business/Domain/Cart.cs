@@ -9,6 +9,7 @@ namespace ShoppingCart.Business.Domain
         private Guid ID { get; }
         private readonly List<LineItem> lineItems;
         private Coupon appliedCoupon;
+        private decimal deliveryCost;
 
         public Cart(Guid id)
         {
@@ -19,6 +20,16 @@ namespace ShoppingCart.Business.Domain
         public IReadOnlyCollection<LineItem> GetLineItems()
         {
             return lineItems;
+        }
+
+        public int GetLineItemsCount()
+        {
+            return lineItems.Count;
+        }
+
+        public int GetDistinctCategoriesCount()
+        {
+            return lineItems.Select(l => l.Product.CategoryID).Distinct().Count();
         }
 
         public void AddItem(Product product, int quantity)
@@ -43,6 +54,8 @@ namespace ShoppingCart.Business.Domain
 
         public void ApplyCampaign(Campaign campaign)
         {
+            if (campaign == null) throw new ArgumentNullException($"{nameof(campaign)} cannot be null.");
+
             lineItems.ForEach(l => l.ClearCampaign());
 
             var isApplicable = campaign.IsApplicable(this);
@@ -55,12 +68,26 @@ namespace ShoppingCart.Business.Domain
 
         public void ApplyCoupon(Coupon coupon)
         {
+            if (coupon == null) throw new ArgumentNullException($"{nameof(coupon)} cannot be null.");
+
             ClearCoupon();
             var isApplicable = coupon.IsApplicable(this);
             if (!isApplicable) return;
             appliedCoupon = coupon;
             CouponDiscount = coupon.CalculateDiscountAmount(this).Value;
             DistributeCouponDiscountToLineItems();
+        }
+
+        public void SetDeliveryCost(decimal cost)
+        {
+            if (cost <= 0m) throw new ArgumentNullException($"{nameof(cost)} must be greater than 0.");
+
+            deliveryCost = Math.Round(cost, 2);
+        }
+
+        public decimal GetDeliveryCost(decimal cost)
+        {
+            return deliveryCost;
         }
 
         public decimal TotalAmount
