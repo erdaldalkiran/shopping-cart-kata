@@ -21,7 +21,7 @@ namespace ShoppingCart.UnitTests.Services.CartPrinterTests
         private readonly string expectedOutput = @"CategoryName ProductName Quantity UnitPrice TotalPrice TotalDiscount
 Category 1 Title A 3 100TL 250TL 50TL
 Category 2 Title B 2 40TL 80TL 0TL
-Total Amount:330TL Delivery Cost: 32,99TL
+Total Amount: 330TL Delivery Cost: 32,99TL
 ";
 
         [OneTimeSetUp]

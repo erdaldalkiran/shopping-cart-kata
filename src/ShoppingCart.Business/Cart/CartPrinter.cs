@@ -12,7 +12,7 @@ namespace ShoppingCart.Business.Cart
             "CategoryName ProductName Quantity UnitPrice TotalPrice TotalDiscount";
 
         private static readonly string LineItemFormat = "{0} {1} {2} {3}TL {4}TL {5}TL";
-        private static readonly string CartFormat = "Total Amount:{0}TL Delivery Cost: {1}TL";
+        private static readonly string CartFormat = "Total Amount: {0}TL Delivery Cost: {1}TL";
 
         public CartPrinter(ICategoryReader categoryReader)
         {
@@ -21,6 +21,8 @@ namespace ShoppingCart.Business.Cart
 
         public string Print(Cart cart)
         {
+            if (cart.IsEmpty) return "cart is empty!";
+
             var lineItems = cart.LineItems.OrderBy(l => l.Product.CategoryID).ToList();
             var distinctCategories = lineItems.Select(l => l.Product.CategoryID).Distinct().ToList();
             var categories = categoryReader.GetByIDs(distinctCategories)

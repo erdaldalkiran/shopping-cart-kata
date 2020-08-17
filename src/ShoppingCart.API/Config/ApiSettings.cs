@@ -2,7 +2,8 @@
 {
     public class ApiSettings
     {
-        public string EnvironmentName { get; set; }
         public string ApplicationName { get; set; }
+        public decimal CostPerDelivery { get; set; }
+        public decimal CostPerProduct { get; set; }
     }
 }

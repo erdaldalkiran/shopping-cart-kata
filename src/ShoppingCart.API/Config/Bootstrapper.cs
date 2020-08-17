@@ -5,6 +5,7 @@ using ShoppingCart.Business.Campaign;
 using ShoppingCart.Business.Cart;
 using ShoppingCart.Business.Category;
 using ShoppingCart.Business.Coupon;
+using ShoppingCart.Business.Delivery;
 using ShoppingCart.Business.Product;
 using ShoppingCart.Business.Validation;
 using ShoppingCart.Infra.Persistence.Campaign;
@@ -46,7 +47,7 @@ namespace ShoppingCart.API.Config
             var campaigns = new List<Business.Campaign.Campaign>();
             services.AddSingleton<ICampaignReader>(sp => new InMemoryCampaignReader(campaigns));
             services.AddSingleton<ICampaignRepository>(sp => new InMemoryCampaignRepository(campaigns));
-            
+
             var carts = new List<Business.Cart.Cart>();
             services.AddSingleton<ICartReader>(sp => new InMemoryCartReader(carts));
             services.AddSingleton<ICartRepository>(sp => new InMemoryCartRepository(carts));
@@ -59,6 +60,13 @@ namespace ShoppingCart.API.Config
             services.AddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
             services.AddTransient<IValidator<CreateCouponCommand>, CreateCouponValidator>();
             services.AddTransient<IValidator<CreateCampaignCommand>, CreateCampaignValidator>();
+            services.AddTransient<IValidator<AddItemCommand>, AddItemValidator>();
+            services.AddTransient<IValidator<ApplyCouponCommand>, ApplyCouponValidator>();
+
+
+            services.AddSingleton(sp => new DeliveryCostCalculator(settings.CostPerDelivery, settings.CostPerProduct));
+            services.AddTransient<ICampaignFinderService, CampaignFinderService>();
+            services.AddSingleton<CartPrinter>();
         }
     }
 }

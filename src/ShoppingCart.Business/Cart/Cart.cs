@@ -6,16 +6,19 @@ namespace ShoppingCart.Business.Cart
 {
     public class Cart
     {
-        public Guid ID { get; }
         private readonly List<LineItem> lineItems;
-        private Coupon.Coupon appliedCoupon;
-        private decimal deliveryCost;
+
+        public Guid ID { get; }
+        public Coupon.Coupon AppliedCoupon { get; private set; }
+        public decimal CouponDiscount { get; private set; }
+        public decimal DeliveryCost { get; private set; }
 
         public Cart(Guid id)
         {
             ID = id;
             lineItems = new List<LineItem>();
         }
+
         public IReadOnlyCollection<LineItem> LineItems => lineItems;
 
         public decimal TotalAmount
@@ -42,13 +45,12 @@ namespace ShoppingCart.Business.Cart
             }
         }
 
-        public decimal CouponDiscount { get; private set; }
 
         public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscount - CouponDiscount, 2);
 
         public decimal TotalAmountAfterCampaign => Math.Round(TotalAmount - CampaignDiscount, 2);
-        
-        public decimal DeliveryCost => deliveryCost;
+
+        public bool IsEmpty => !LineItems.Any();
 
         public int GetLineItemsCount()
         {
@@ -84,14 +86,17 @@ namespace ShoppingCart.Business.Cart
         {
             if (campaign == null) throw new ArgumentNullException($"{nameof(campaign)} cannot be null.");
 
-            lineItems.ForEach(l => l.ClearCampaign());
+            ClearCampaign();
 
             var isApplicable = campaign.IsApplicable(this);
             if (!isApplicable) return;
 
             lineItems.ForEach(l => l.ApplyCampaign(campaign));
+        }
 
-            if (appliedCoupon != null) ApplyCoupon(appliedCoupon);
+        public void ClearCampaign()
+        {
+            lineItems.ForEach(l => l.ClearCampaign());
         }
 
         public void ApplyCoupon(Coupon.Coupon coupon)
@@ -101,7 +106,7 @@ namespace ShoppingCart.Business.Cart
             ClearCoupon();
             var isApplicable = coupon.IsApplicable(this);
             if (!isApplicable) return;
-            appliedCoupon = coupon;
+            AppliedCoupon = coupon;
             CouponDiscount = coupon.CalculateDiscountAmount(this).Value;
             DistributeCouponDiscountToLineItems();
         }
@@ -110,16 +115,12 @@ namespace ShoppingCart.Business.Cart
         {
             if (cost <= 0m) throw new ArgumentNullException($"{nameof(cost)} must be greater than 0.");
 
-            deliveryCost = Math.Round(cost, 2);
+            DeliveryCost = Math.Round(cost, 2);
         }
-
-      
-
-      
 
         private void ClearCoupon()
         {
-            appliedCoupon = null;
+            AppliedCoupon = null;
             CouponDiscount = 0m;
             lineItems.ForEach(l => l.ClearCouponDiscount());
         }

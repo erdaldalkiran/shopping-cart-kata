@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ShoppingCart.Business.Cart
 {
@@ -6,5 +7,6 @@ namespace ShoppingCart.Business.Cart
     {
         void Add(Cart cart);
         Cart GetByID(Guid id);
+        ICollection<Cart> GetAll();
     }
 }

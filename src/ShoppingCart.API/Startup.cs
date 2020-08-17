@@ -55,5 +55,9 @@ namespace ShoppingCart.API
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+
+        protected virtual void OverrideServices(IServiceCollection services)
+        {
+        }
     }
 }

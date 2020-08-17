@@ -23,5 +23,10 @@ namespace ShoppingCart.Infra.Persistence.Cart
         {
             return carts.SingleOrDefault(c => c.ID == id);
         }
+
+        public ICollection<Business.Cart.Cart> GetAll()
+        {
+            return carts;
+        }
     }
 }
