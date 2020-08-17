@@ -24,9 +24,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
         [Test]
         public void line_item_should_be_added()
         {
-            var lineItems = cart.LineItems;
-
-            var retrievedLineItem = lineItems.Single(l => l.Product.ID == product.ID);
+            var retrievedLineItem =  cart.LineItems.Single(l => l.Product.ID == product.ID);
 
             retrievedLineItem.Product.Should().BeEquivalentTo(product);
             retrievedLineItem.Quantity.Should().Be(quantity);

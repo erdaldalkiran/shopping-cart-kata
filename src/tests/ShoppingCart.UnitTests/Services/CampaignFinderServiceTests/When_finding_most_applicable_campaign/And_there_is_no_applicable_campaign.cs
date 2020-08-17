@@ -19,7 +19,6 @@ namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_findin
         private readonly IList<Campaign> campaigns = new List<Campaign>(3);
         private readonly Cart cart = new Cart(Guid.NewGuid());
 
-
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -30,7 +29,7 @@ namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_findin
         public void no_campaign_should_be_returned()
         {
             var service = new CampaignFinderService(campaignReaderService.Object);
-            var campaign = service.FindMostApplicableCampaign(cart);
+            var campaign = service.FindMostApplicableCampaignTo(cart);
 
             campaign.Should().BeNull();
         }
@@ -55,7 +54,7 @@ namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_findin
 
             campaignReaderService
                 .Setup(s => s.GetByCategories(It.IsAny<ICollection<Guid>>()))
-                .Returns(campaigns);
+                .Returns(campaigns.ToList());
         }
     }
 }

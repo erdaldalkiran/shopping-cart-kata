@@ -52,7 +52,6 @@ namespace ShoppingCart.API.Category
         {
             var id = Guid.NewGuid();
 
-            //TODO: add error handling middleware
             try
             {
                 await mediator.Send(new CreateCategoryCommand(id, request.ParentCategoryID, request.Title));

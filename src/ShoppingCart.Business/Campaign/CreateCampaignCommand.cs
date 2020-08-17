@@ -15,10 +15,10 @@ namespace ShoppingCart.Business.Campaign
 
         public decimal Rate { get; }
 
-        public CreateCampaignCommand(Guid id, Guid categoryId, int minimumItemCount, DiscountType type, decimal rate)
+        public CreateCampaignCommand(Guid id, Guid categoryID, int minimumItemCount, DiscountType type, decimal rate)
         {
             ID = id;
-            CategoryID = categoryId;
+            CategoryID = categoryID;
             MinimumItemCount = minimumItemCount;
             Type = type;
             Rate = Math.Round(rate, 2);

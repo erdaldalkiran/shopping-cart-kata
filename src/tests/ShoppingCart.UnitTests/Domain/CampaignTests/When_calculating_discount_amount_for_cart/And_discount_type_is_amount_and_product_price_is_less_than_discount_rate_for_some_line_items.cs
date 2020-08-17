@@ -7,7 +7,7 @@ using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_calculating_discount_amount_for_cart
 {
-    [Description("campaign is applied only one line item because other line item has a price less than discount rate.")]
+    [Description("campaign is applied only one line item because other line item has a price less than the discount rate.")]
     internal class And_discount_type_is_amount_and_product_price_is_less_than_discount_rate_for_some_line_items
     {
         [Test]
@@ -20,7 +20,7 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_calculating_discount_
 
             var campaign = new Campaign(Guid.NewGuid(), categoryID, 1, DiscountType.Amount, 15m);
 
-            var discountAmount = campaign.CalculateDiscountAmount(cart);
+            var discountAmount = campaign.CalculateDiscountAmountFor(cart);
 
             discountAmount.Value.Should().Be(30m);
         }

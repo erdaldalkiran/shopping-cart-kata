@@ -30,8 +30,16 @@ Total Amount: 330TL Delivery Cost: 32,99TL
             SetupData();
         }
 
+        [Test]
+        public void it_should_print_correctly()
+        {
+            var result = printer.Print(cart);
+            result.Should().Be(expectedOutput);
+        }
+
         private void SetupData()
         {
+            //cart printer sorts products by category. so we need predefined to prevent flaky tests
             var categoryID1 = Guid.Parse("BA38E701-024B-4968-ABED-510742481F0D");
             var category1 = new Category(categoryID1, Guid.NewGuid(), "Category 1");
 
@@ -53,17 +61,10 @@ Total Amount: 330TL Delivery Cost: 32,99TL
             var deliveryCost = deliveryCostCalculator.CalculateFor(cart);
             cart.SetDeliveryCost(deliveryCost);
 
-            categoryReader.Setup(r => r.GetByIDs(new List<Guid> {categoryID1, categoryID2}))
-                .Returns(new List<Category> {category1, category2});
+            categoryReader.Setup(r => r.GetByIDs(new List<Guid> { categoryID1, categoryID2 }))
+                .Returns(new List<Category> { category1, category2 });
 
             printer = new CartPrinter(categoryReader.Object);
-        }
-
-        [Test]
-        public void it_should_print_correctly()
-        {
-            var result = printer.Print(cart);
-            result.Should().Be(expectedOutput);
         }
     }
 }

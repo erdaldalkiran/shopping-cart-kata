@@ -17,18 +17,18 @@ namespace ShoppingCart.Business.Campaign
 
         public decimal Rate { get; }
 
-        public Campaign(Guid id, Guid categoryId, int minimumItemCount, DiscountType type, decimal rate)
+        public Campaign(Guid id, Guid categoryID, int minimumItemCount, DiscountType type, decimal rate)
         {
             ID = id;
-            CategoryID = categoryId;
+            CategoryID = categoryID;
             MinimumItemCount = minimumItemCount;
             Type = type;
             Rate = Math.Round(rate, 2);
         }
 
-        public decimal? CalculateDiscountAmount(Cart.Cart cart)
+        public decimal? CalculateDiscountAmountFor(Cart.Cart cart)
         {
-            var isApplicable = IsApplicable(cart);
+            var isApplicable = IsApplicableTo(cart);
             if (!isApplicable) return null;
 
             var items = GetCampaignApplicableLineItems(cart);
@@ -37,34 +37,33 @@ namespace ShoppingCart.Business.Campaign
             return Math.Round(sum, 2);
         }
 
-        public decimal? CalculateDiscountAmount(LineItem lineItem)
+        public decimal? CalculateDiscountAmountFor(LineItem lineItem)
         {
-            var isApplicable = IsApplicable(lineItem);
+            var isApplicable = IsApplicableTo(lineItem);
             if (!isApplicable) return null;
 
             return CampaignDiscountAmountCalculator.Strategies[Type](lineItem, Rate);
         }
 
-        public bool IsApplicable(Cart.Cart cart)
+        public bool IsApplicableTo(Cart.Cart cart)
         {
             var items = GetCampaignApplicableLineItems(cart);
-            var minimumCountRequirement = DoesCartContainMinimumItemCount(items);
-
-            return minimumCountRequirement;
+         
+            return DoesCartContainMinimumItemCount(items);
         }
 
-        public bool IsApplicable(LineItem lineItem)
+        public bool IsApplicableTo(LineItem lineItem)
         {
             var categoryRequirement = lineItem.Product.CategoryID == CategoryID;
             var priceRequirement = true;
             if (Type == DiscountType.Amount) priceRequirement = lineItem.Product.Price > Rate;
 
-            return categoryRequirement & priceRequirement;
+            return categoryRequirement && priceRequirement;
         }
 
         private List<LineItem> GetCampaignApplicableLineItems(Cart.Cart cart)
         {
-            return cart.LineItems.Where(IsApplicable).ToList();
+            return cart.LineItems.Where(IsApplicableTo).ToList();
         }
 
         private bool DoesCartContainMinimumItemCount(List<LineItem> items)

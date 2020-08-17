@@ -53,7 +53,6 @@ namespace ShoppingCart.API.Campaign
         {
             var id = Guid.NewGuid();
 
-            //TODO: add error handling middleware
             try
             {
                 await mediator.Send(new CreateCampaignCommand(id, request.CategoryID, request.MinimumItemCount,

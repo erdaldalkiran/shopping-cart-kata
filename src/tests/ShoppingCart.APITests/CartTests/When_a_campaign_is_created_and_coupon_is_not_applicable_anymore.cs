@@ -12,7 +12,7 @@ using ShoppingCart.Business.Cart;
 
 namespace ShoppingCart.APITests.CartTests
 {
-    internal class When_a_campign_is_created_and_coupon_is_not_applicable_anymore
+    internal class When_a_campaign_is_created_and_coupon_is_not_applicable_anymore
     {
         private readonly ApiTestHelper apiHelper = new ApiTestHelper();
         private Guid campaignCategoryID;
@@ -49,7 +49,7 @@ namespace ShoppingCart.APITests.CartTests
         }
 
         [Test]
-        public void line_items_should_not_have_coupon()
+        public void line_items_should_not_have_the_coupon()
         {
             foreach (var lineItem in afterCampaignCart.LineItems) lineItem.CouponDiscount.Should().Be(0m);
         }

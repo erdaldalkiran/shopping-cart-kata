@@ -30,6 +30,33 @@ namespace ShoppingCart.API.Config
 
         public void RegisterServices()
         {
+            RegisterPersistenceServices();
+            RegisterMediator();
+            RegisterDomainServices();
+        }
+
+        private void RegisterDomainServices()
+        {
+            services.AddSingleton(sp => new DeliveryCostCalculator(settings.CostPerDelivery, settings.CostPerProduct));
+            services.AddTransient<ICampaignFinderService, CampaignFinderService>();
+            services.AddSingleton<CartPrinter>();
+        }
+
+        private void RegisterMediator()
+        {
+            services.AddMediatR(typeof(CreateCategoryCommand).Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
+            services.AddTransient<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
+            services.AddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
+            services.AddTransient<IValidator<CreateCouponCommand>, CreateCouponValidator>();
+            services.AddTransient<IValidator<CreateCampaignCommand>, CreateCampaignValidator>();
+            services.AddTransient<IValidator<AddItemCommand>, AddItemValidator>();
+            services.AddTransient<IValidator<ApplyCouponCommand>, ApplyCouponValidator>();
+        }
+
+        private void RegisterPersistenceServices()
+        {
             var categories = new List<Business.Category.Category>();
             services.AddSingleton<ICategoryReader>(sp => new InMemoryCategoryReader(categories));
             services.AddSingleton<ICategoryRepository>(sp => new InMemoryCategoryRepository(categories));
@@ -51,22 +78,6 @@ namespace ShoppingCart.API.Config
             var carts = new List<Business.Cart.Cart>();
             services.AddSingleton<ICartReader>(sp => new InMemoryCartReader(carts));
             services.AddSingleton<ICartRepository>(sp => new InMemoryCartRepository(carts));
-
-
-            services.AddMediatR(typeof(CreateCategoryCommand).Assembly);
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-
-            services.AddTransient<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
-            services.AddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
-            services.AddTransient<IValidator<CreateCouponCommand>, CreateCouponValidator>();
-            services.AddTransient<IValidator<CreateCampaignCommand>, CreateCampaignValidator>();
-            services.AddTransient<IValidator<AddItemCommand>, AddItemValidator>();
-            services.AddTransient<IValidator<ApplyCouponCommand>, ApplyCouponValidator>();
-
-
-            services.AddSingleton(sp => new DeliveryCostCalculator(settings.CostPerDelivery, settings.CostPerProduct));
-            services.AddTransient<ICampaignFinderService, CampaignFinderService>();
-            services.AddSingleton<CartPrinter>();
         }
     }
 }

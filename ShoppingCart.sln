@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.API", "src\Sho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.Infra", "src\ShoppingCart.Infra\ShoppingCart.Infra.csproj", "{1B9F50D8-A8BE-4601-8280-1A7CDA05205D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.APITests", "src\tests\ShoppingCart.APITests\ShoppingCart.APITests.csproj", "{FC6E4444-C883-4073-A876-BD79198D267A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.APITests", "src\tests\ShoppingCart.APITests\ShoppingCart.APITests.csproj", "{FC6E4444-C883-4073-A876-BD79198D267A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCA8F581-37D4-42D9-BA84-71BBA28F0F3B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

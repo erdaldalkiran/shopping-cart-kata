@@ -9,10 +9,10 @@ namespace ShoppingCart.Business.Cart
         public Guid ProductID { get; }
         public int Quantity { get; }
 
-        public AddItemCommand(Guid id, Guid productId, int quantity)
+        public AddItemCommand(Guid id, Guid productID, int quantity)
         {
             ID = id;
-            ProductID = productId;
+            ProductID = productID;
             Quantity = quantity;
         }
     }

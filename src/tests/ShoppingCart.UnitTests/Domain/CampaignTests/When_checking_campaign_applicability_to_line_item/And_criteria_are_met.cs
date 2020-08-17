@@ -8,7 +8,7 @@ using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_checking_campaign_applicability_to_line_item
 {
-    internal class And_criterias_are_met
+    internal class And_criteria_are_met
     {
         [Test]
         public void campaign_should_be_applicable()
@@ -20,7 +20,7 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_checking_campaign_app
 
             var campaign = new Campaign(Guid.NewGuid(), categoryID, 1, DiscountType.Amount, 5m);
 
-            var isApplicable = campaign.IsApplicable(lineItem);
+            var isApplicable = campaign.IsApplicableTo(lineItem);
             isApplicable.Should().BeTrue();
         }
     }

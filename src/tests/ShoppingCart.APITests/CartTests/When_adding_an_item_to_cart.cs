@@ -10,7 +10,6 @@ using ShoppingCart.Business.Cart;
 
 namespace ShoppingCart.APITests.CartTests
 {
-    [Description("adding a product which costs 10m with quantity 3 to the cart.")]
     internal class When_adding_an_item_to_cart
     {
         private readonly ApiTestHelper apiHelper = new ApiTestHelper();

@@ -9,7 +9,7 @@ using ShoppingCart.Business.Product;
 
 namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_coupon
 {
-    [Description("applying %10 discount all line items in the cart. than applying %20 discount on cart.")]
+    [Description("applying %10 discount all line items in the cart. than applying %20 coupon on cart.")]
     internal class And_cart_has_a_campaign
     {
         private Cart cart;

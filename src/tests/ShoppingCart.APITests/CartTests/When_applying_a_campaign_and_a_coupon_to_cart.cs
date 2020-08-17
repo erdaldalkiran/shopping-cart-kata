@@ -13,7 +13,7 @@ using ShoppingCart.Business.Cart;
 
 namespace ShoppingCart.APITests.CartTests
 {
-    [Description("there 2 line items in the cart. campaign is applied o the one of them. then a coupon is applied.")]
+    [Description("there are 2 line items in the cart. campaign is applied to the one of them. then a coupon is applied.")]
     internal class When_applying_a_campaign_and_a_coupon_to_cart
     {
         private readonly ApiTestHelper apiHelper = new ApiTestHelper();
@@ -57,7 +57,7 @@ namespace ShoppingCart.APITests.CartTests
         [Test]
         public void campaign_and_coupon_not_applied_line_item_should_have_correct_values()
         {
-            var lineItem = cart.LineItems.Single(l => l.Product.CategoryID != campaignCategoryID);
+            var lineItem = cart.LineItems.Single(l => l.Product.CategoryID != campaignCategoryID && l.CouponDiscount == 0m);
 
             lineItem.AppliedCampaign.Should().BeNull();
             lineItem.CampaignDiscount.Should().Be(0m);

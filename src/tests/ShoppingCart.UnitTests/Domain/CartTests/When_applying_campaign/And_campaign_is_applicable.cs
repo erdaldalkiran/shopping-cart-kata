@@ -49,24 +49,8 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         [Test]
         public void cart_total_amount_after_discounts_should_be_correct()
         {
-            var items = cart
-                .LineItems
-                .ToList();
-
-            var expectedTotalAmount = items.Sum(l =>
-            {
-                var discountAmount = Math.Round(l.Product.Price * l.Quantity);
-                return Math.Round(discountAmount, 2);
-            });
-
-            var campaignAppliedItems = items
-                .Where(l => l.Product.CategoryID == categoryID)
-                .ToList();
-            var expectedTotalDiscountAmount = campaignAppliedItems.Sum(l =>
-            {
-                var discountAmount = Math.Round(l.Product.Price * l.Quantity * campaign.Rate);
-                return Math.Round(discountAmount, 2);
-            });
+            var expectedTotalAmount = 430m;
+            var expectedTotalDiscountAmount = 18m;
 
             cart.TotalAmountAfterDiscounts.Should()
                 .Be(Math.Round(expectedTotalAmount - expectedTotalDiscountAmount, 2));
@@ -75,16 +59,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_applying_campaign
         [Test]
         public void cart_campaign_discounts_should_be_correct()
         {
-            var campaignAppliedItems = cart
-                .LineItems
-                .Where(l => l.Product.CategoryID == categoryID)
-                .ToList();
-
-            var expectedTotalDiscountAmount = campaignAppliedItems.Sum(l =>
-            {
-                var discountAmount = Math.Round(l.Product.Price * l.Quantity * campaign.Rate);
-                return Math.Round(discountAmount, 2);
-            });
+            var expectedTotalDiscountAmount = 18m;
 
             cart.CampaignDiscount.Should().Be(expectedTotalDiscountAmount);
         }

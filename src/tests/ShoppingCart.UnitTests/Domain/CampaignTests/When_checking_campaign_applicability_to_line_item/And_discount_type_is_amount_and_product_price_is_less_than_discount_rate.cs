@@ -20,7 +20,7 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_checking_campaign_app
 
             var campaign = new Campaign(Guid.NewGuid(), categoryID, 1, DiscountType.Amount, 50m);
 
-            var isApplicable = campaign.IsApplicable(lineItem);
+            var isApplicable = campaign.IsApplicableTo(lineItem);
             isApplicable.Should().BeFalse();
         }
     }

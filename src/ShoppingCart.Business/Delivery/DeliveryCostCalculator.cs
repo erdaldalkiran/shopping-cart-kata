@@ -16,11 +16,10 @@ namespace ShoppingCart.Business.Delivery
 
         public decimal CalculateFor(Cart.Cart cart)
         {
-            var distinctProductCount = cart.GetLineItemsCount();
-            var distinctCategoryCount = cart.GetDistinctCategoriesCount();
-
             return Math.Round(
-                distinctCategoryCount * CostPerDelivery + distinctProductCount * CostPerProduct + FixedCost, 2);
+                cart.DistinctCategoriesCount * CostPerDelivery 
+                + cart.LineItemsCount * CostPerProduct 
+                + FixedCost, 2);
         }
     }
 }

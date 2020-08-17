@@ -14,7 +14,7 @@ namespace ShoppingCart.Infra.Persistence.Campaign
             this.campaigns = campaigns;
         }
 
-        public ICollection<Business.Campaign.Campaign> GetByCategories(ICollection<Guid> categoryIDs)
+        public IReadOnlyCollection<Business.Campaign.Campaign> GetByCategories(ICollection<Guid> categoryIDs)
         {
             return campaigns.Where(c => categoryIDs.Contains(c.CategoryID)).ToList();
         }

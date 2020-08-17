@@ -32,7 +32,7 @@ namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_findin
         public void it_should_return_campaign_with_most_discount_amount()
         {
             var service = new CampaignFinderService(campaignReaderService.Object);
-            var campaign = service.FindMostApplicableCampaign(cart);
+            var campaign = service.FindMostApplicableCampaignTo(cart);
 
             campaign.Should().BeEquivalentTo(expectedCampaign);
         }
@@ -57,7 +57,7 @@ namespace ShoppingCart.UnitTests.Services.CampaignFinderServiceTests.When_findin
 
             campaignReaderService
                 .Setup(s => s.GetByCategories(It.IsAny<ICollection<Guid>>()))
-                .Returns(campaigns);
+                .Returns(campaigns.ToList());
         }
     }
 }

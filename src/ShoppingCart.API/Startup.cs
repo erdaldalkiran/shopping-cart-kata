@@ -18,14 +18,13 @@ namespace ShoppingCart.API
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
             settings = Configuration.GetSection("Settings").Get<ApiSettings>();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -38,12 +37,10 @@ namespace ShoppingCart.API
 
             new Bootstrapper(services, settings).RegisterServices();
 
-
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = settings.ApplicationName}); });
             services.AddResponseCompression();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
@@ -54,10 +51,6 @@ namespace ShoppingCart.API
             app.UseRouting();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        }
-
-        protected virtual void OverrideServices(IServiceCollection services)
-        {
         }
     }
 }

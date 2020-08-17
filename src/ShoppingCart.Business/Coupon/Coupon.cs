@@ -22,22 +22,21 @@ namespace ShoppingCart.Business.Coupon
             Rate = rate;
         }
 
-        public bool IsApplicable(Cart.Cart cart)
+        public bool IsApplicableTo(Cart.Cart cart)
         {
             var cartAmount = cart.TotalAmountAfterCampaign;
 
             return cartAmount > MinimumCartAmount;
         }
 
-        public decimal? CalculateDiscountAmount(Cart.Cart cart)
+        public decimal? CalculateDiscountAmountFor(Cart.Cart cart)
         {
-            var isApplicable = IsApplicable(cart);
+            var isApplicable = IsApplicableTo(cart);
             if (!isApplicable) return null;
 
             var cartAmount = cart.TotalAmountAfterCampaign;
 
-            return Math.Min(cart.TotalAmountAfterCampaign,
-                CouponDiscountAmountCalculator.Strategies[Type](cartAmount, Rate));
+            return Math.Min(cart.TotalAmountAfterCampaign, CouponDiscountAmountCalculator.Strategies[Type](cartAmount, Rate));
         }
     }
 

@@ -52,8 +52,7 @@ namespace ShoppingCart.API.Product
         public async Task<IActionResult> Create([FromBody] CreateProductRequest request)
         {
             var id = Guid.NewGuid();
-
-            //TODO: add error handling middleware
+            
             try
             {
                 await mediator.Send(new CreateProductCommand(id, request.Title, request.Price, request.CategoryID));

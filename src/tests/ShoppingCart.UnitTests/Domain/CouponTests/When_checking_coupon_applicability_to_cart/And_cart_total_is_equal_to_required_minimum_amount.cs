@@ -18,7 +18,7 @@ namespace ShoppingCart.UnitTests.Domain.CouponTests.When_checking_coupon_applica
 
             var coupon = new Coupon(Guid.NewGuid(), 10m, DiscountType.Amount, 10m);
 
-            var isApplicable = coupon.IsApplicable(cart);
+            var isApplicable = coupon.IsApplicableTo(cart);
 
             isApplicable.Should().BeFalse();
         }

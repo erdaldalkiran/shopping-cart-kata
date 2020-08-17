@@ -20,7 +20,7 @@ namespace ShoppingCart.UnitTests.Domain.CampaignTests.When_calculating_discount_
 
             var campaign = new Campaign(Guid.NewGuid(), categoryID, 1, DiscountType.Amount, 10m);
 
-            var discountAmount = campaign.CalculateDiscountAmount(lineItem);
+            var discountAmount = campaign.CalculateDiscountAmountFor(lineItem);
 
             discountAmount.Value.Should().Be(40m);
         }

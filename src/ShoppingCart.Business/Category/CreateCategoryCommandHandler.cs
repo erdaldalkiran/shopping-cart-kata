@@ -22,7 +22,7 @@ namespace ShoppingCart.Business.Category
         {
             if (request.ParentCategoryID.HasValue)
             {
-                var parent = categoryReader.GetByIDs(new List<Guid> {request.ParentCategoryID.Value}).FirstOrDefault();
+                var parent = categoryReader.GetByIDs(new List<Guid> {request.ParentCategoryID.Value}).SingleOrDefault();
                 if (parent == null) throw new CategoryNotFoundException(request.ParentCategoryID.Value);
             }
 

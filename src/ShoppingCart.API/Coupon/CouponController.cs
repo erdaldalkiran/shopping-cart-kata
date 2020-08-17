@@ -52,7 +52,6 @@ namespace ShoppingCart.API.Coupon
         {
             var id = Guid.NewGuid();
 
-            //TODO: add error handling middleware
             try
             {
                 await mediator.Send(new CreateCouponCommand(id, request.MinimumCartAmount, request.Type, request.Rate));

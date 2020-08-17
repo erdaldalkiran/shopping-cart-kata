@@ -23,7 +23,7 @@ namespace ShoppingCart.Business.Product
 
         protected override Task Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var category = categoryReader.GetByIDs(new List<Guid> {request.CategoryID}).FirstOrDefault();
+            var category = categoryReader.GetByIDs(new List<Guid> {request.CategoryID}).SingleOrDefault();
             if (category == null) throw new CategoryNotFoundException(request.CategoryID);
 
             var product = new Product(request.ID, request.Title, request.Price, request.CategoryID);

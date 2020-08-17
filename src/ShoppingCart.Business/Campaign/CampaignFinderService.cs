@@ -7,7 +7,7 @@ namespace ShoppingCart.Business.Campaign
 {
     public interface ICampaignFinderService
     {
-        Campaign FindMostApplicableCampaign(Cart.Cart cart);
+        Campaign FindMostApplicableCampaignTo(Cart.Cart cart);
     }
 
     public class CampaignFinderService : ICampaignFinderService
@@ -19,18 +19,18 @@ namespace ShoppingCart.Business.Campaign
             this.campaignReader = campaignReader;
         }
 
-        public Campaign FindMostApplicableCampaign(Cart.Cart cart)
+        public Campaign FindMostApplicableCampaignTo(Cart.Cart cart)
         {
             var applicableCampaigns = GetApplicableCampaigns(cart);
 
             var results = SimulateCampaigns(applicableCampaigns, cart);
 
-            var campaigns = GetCampaignsApplied(results);
+            var campaigns = SortCampaignsByDiscountAmount(results);
 
             return campaigns.FirstOrDefault();
         }
 
-        private static IList<Campaign> GetCampaignsApplied(ConcurrentBag<KeyValuePair<Campaign, decimal?>> results)
+        private static IList<Campaign> SortCampaignsByDiscountAmount(ConcurrentBag<KeyValuePair<Campaign, decimal?>> results)
         {
             return results
                 .Where(kv => kv.Value.HasValue)
@@ -45,7 +45,7 @@ namespace ShoppingCart.Business.Campaign
             var results = new ConcurrentBag<KeyValuePair<Campaign, decimal?>>();
             Parallel.ForEach(applicableCampaigns, campaign =>
             {
-                var discountAmount = campaign.CalculateDiscountAmount(cart);
+                var discountAmount = campaign.CalculateDiscountAmountFor(cart);
                 results.Add(new KeyValuePair<Campaign, decimal?>(campaign, discountAmount));
             });
             return results;

@@ -39,7 +39,7 @@ namespace ShoppingCart.Business.Cart
 
         private void ReevaluateCampaign(Cart cart)
         {
-            var campaign = campaignFinderService.FindMostApplicableCampaign(cart);
+            var campaign = campaignFinderService.FindMostApplicableCampaignTo(cart);
             if (campaign != null)
                 cart.ApplyCampaign(campaign);
             else

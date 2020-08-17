@@ -13,12 +13,12 @@ namespace ShoppingCart.Business.Product
 
         public Guid CategoryID { get; }
 
-        public CreateProductCommand(Guid id, string title, decimal price, Guid categoryId)
+        public CreateProductCommand(Guid id, string title, decimal price, Guid categoryID)
         {
             ID = id;
             Title = title;
             Price = Math.Round(price, 2);
-            CategoryID = categoryId;
+            CategoryID = categoryID;
         }
     }
 }

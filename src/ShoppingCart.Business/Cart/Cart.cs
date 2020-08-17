@@ -45,22 +45,15 @@ namespace ShoppingCart.Business.Cart
             }
         }
 
-
         public decimal TotalAmountAfterDiscounts => Math.Round(TotalAmount - CampaignDiscount - CouponDiscount, 2);
 
         public decimal TotalAmountAfterCampaign => Math.Round(TotalAmount - CampaignDiscount, 2);
 
         public bool IsEmpty => !LineItems.Any();
 
-        public int GetLineItemsCount()
-        {
-            return lineItems.Count;
-        }
+        public int LineItemsCount => lineItems.Count;
 
-        public int GetDistinctCategoriesCount()
-        {
-            return lineItems.Select(l => l.Product.CategoryID).Distinct().Count();
-        }
+        public int DistinctCategoriesCount => lineItems.Select(l => l.Product.CategoryID).Distinct().Count();
 
         public void AddItem(Product.Product product, int quantity)
         {
@@ -88,7 +81,7 @@ namespace ShoppingCart.Business.Cart
 
             ClearCampaign();
 
-            var isApplicable = campaign.IsApplicable(this);
+            var isApplicable = campaign.IsApplicableTo(this);
             if (!isApplicable) return;
 
             lineItems.ForEach(l => l.ApplyCampaign(campaign));
@@ -104,10 +97,12 @@ namespace ShoppingCart.Business.Cart
             if (coupon == null) throw new ArgumentNullException($"{nameof(coupon)} cannot be null.");
 
             ClearCoupon();
-            var isApplicable = coupon.IsApplicable(this);
+
+            var isApplicable = coupon.IsApplicableTo(this);
             if (!isApplicable) return;
+            
             AppliedCoupon = coupon;
-            CouponDiscount = coupon.CalculateDiscountAmount(this).Value;
+            CouponDiscount = coupon.CalculateDiscountAmountFor(this).Value;
             DistributeCouponDiscountToLineItems();
         }
 

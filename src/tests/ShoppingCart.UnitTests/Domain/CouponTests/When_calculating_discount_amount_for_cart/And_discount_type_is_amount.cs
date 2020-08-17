@@ -19,7 +19,7 @@ namespace ShoppingCart.UnitTests.Domain.CouponTests.When_calculating_discount_am
 
             var coupon = new Coupon(Guid.NewGuid(), 20m, DiscountType.Amount, 30m);
 
-            var discountAmount = coupon.CalculateDiscountAmount(cart);
+            var discountAmount = coupon.CalculateDiscountAmountFor(cart);
 
             discountAmount.Value.Should().Be(coupon.Rate);
         }

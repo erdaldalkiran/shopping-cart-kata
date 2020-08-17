@@ -17,11 +17,18 @@ namespace ShoppingCart.APITests.CartTests
         private readonly ApiTestHelper apiHelper = new ApiTestHelper();
 
         private Cart cart;
+        private Guid couponID;
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
             var cartID = await SetupData();
+
+            await apiHelper.ApplyCouponTheCart(cartID, new ApplyCouponRequest
+            {
+                CouponID = couponID
+            });
+
             cart = await apiHelper.GetCartByID(cartID);
         }
 
@@ -91,16 +98,11 @@ namespace ShoppingCart.APITests.CartTests
                 Quantity = 1
             });
 
-            var couponID = await apiHelper.CreateACoupon(new CreateCouponRequest
+            couponID = await apiHelper.CreateACoupon(new CreateCouponRequest
             {
                 MinimumCartAmount = 20m,
                 Rate = 10m,
                 Type = DiscountType.Amount
-            });
-
-            await apiHelper.ApplyCouponTheCart(cartID, new ApplyCouponRequest
-            {
-                CouponID = couponID
             });
 
             return cartID;

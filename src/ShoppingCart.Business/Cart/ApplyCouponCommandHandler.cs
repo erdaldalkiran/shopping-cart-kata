@@ -25,7 +25,7 @@ namespace ShoppingCart.Business.Cart
 
             var coupon = EnsureCoupon(request);
 
-            var isApplicable = coupon.IsApplicable(cart);
+            var isApplicable = coupon.IsApplicableTo(cart);
             if (!isApplicable) throw new CouponNotApplicableException(coupon.ID, cart.ID);
 
             cart.ApplyCoupon(coupon);

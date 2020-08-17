@@ -12,7 +12,7 @@ using ShoppingCart.Business.Cart;
 
 namespace ShoppingCart.APITests.CartTests
 {
-    [Description("there 2 line items in the cart. campaign is applied o the one of them.")]
+    [Description("there 2 line items in the cart. campaign is applied to the one of them.")]
     internal class When_applying_a_campaign_to_cart
     {
         private readonly ApiTestHelper apiHelper = new ApiTestHelper();
@@ -106,6 +106,7 @@ namespace ShoppingCart.APITests.CartTests
                 ProductID = productID2,
                 Quantity = 1
             });
+
             return cartID;
         }
     }

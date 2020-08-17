@@ -26,11 +26,10 @@ namespace ShoppingCart.Business.Campaign
 
         protected override async Task Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
         {
-            var category = categoryReader.GetByIDs(new List<Guid> {request.CategoryID}).FirstOrDefault();
+            var category = categoryReader.GetByIDs(new List<Guid> {request.CategoryID}).SingleOrDefault();
             if (category == null) throw new CategoryNotFoundException(request.CategoryID);
 
-            var campaign = new Campaign(request.ID, request.CategoryID, request.MinimumItemCount, request.Type,
-                request.Rate);
+            var campaign = new Campaign(request.ID, request.CategoryID, request.MinimumItemCount, request.Type, request.Rate);
             repository.Add(campaign);
 
             await mediator.Publish(new CampaignCreatedEvent {ID = campaign.ID}, cancellationToken);

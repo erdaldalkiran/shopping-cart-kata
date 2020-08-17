@@ -31,8 +31,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
         {
             var expectedQuantity = initialQuantity + quantity;
 
-            var lineItems = cart.LineItems;
-            var retrievedLineItem = lineItems.Single(l => l.Product.ID == product.ID);
+            var retrievedLineItem =  cart.LineItems.Single(l => l.Product.ID == product.ID);
 
             retrievedLineItem.Quantity.Should().Be(expectedQuantity);
         }
@@ -40,7 +39,7 @@ namespace ShoppingCart.UnitTests.Domain.CartTests.When_adding_line_items
         [Test]
         public void cart_total_amount_should_be_updated()
         {
-            var expectedAmount = initialTotalAmount + product.Price * quantity;
+            var expectedAmount = product.Price * (initialQuantity + quantity);
 
             cart.TotalAmount.Should().Be(expectedAmount);
         }
