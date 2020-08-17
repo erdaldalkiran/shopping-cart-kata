@@ -34,7 +34,12 @@ Total Amount: 330TL Delivery Cost: 32,99TL
         public void it_should_print_correctly()
         {
             var result = printer.Print(cart);
-            result.Should().Be(expectedOutput);
+
+            //to prevent test flakiness on different os's
+            var replace = result.Replace("\r","");
+            var expected = expectedOutput.Replace("\r","");
+            
+            replace.Should().Be(expected);
         }
 
         private void SetupData()
