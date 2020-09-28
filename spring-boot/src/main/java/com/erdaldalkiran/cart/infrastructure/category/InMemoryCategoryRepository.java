@@ -16,7 +16,7 @@ public class InMemoryCategoryRepository implements CategoryRepository {
 
     private final List<Category> categories;
 
-    public InMemoryCategoryRepository(InMemoryDB db) {
+    public InMemoryCategoryRepository(InMemoryCategoryDB db) {
         this.categories = db.getDB();
     }
 

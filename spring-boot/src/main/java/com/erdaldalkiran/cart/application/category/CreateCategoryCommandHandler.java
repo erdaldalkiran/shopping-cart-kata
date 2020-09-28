@@ -19,7 +19,6 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-@Getter
 public class CreateCategoryCommandHandler implements Command.Handler<CreateCategoryCommand, CompletableFuture<Voidy>> {
 
     private final CategoryRepository repository;

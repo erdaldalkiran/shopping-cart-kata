@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class InMemoryDB {
+public class InMemoryCategoryDB {
     private final List<Category> db = new ArrayList<>();
     List<Category> getDB(){
         return db;

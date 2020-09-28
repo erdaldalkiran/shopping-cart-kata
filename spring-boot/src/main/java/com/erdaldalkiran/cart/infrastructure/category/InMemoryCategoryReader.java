@@ -21,7 +21,7 @@ public class InMemoryCategoryReader implements CategoryReader {
 
     private final List<Category> categories;
 
-    public InMemoryCategoryReader(InMemoryDB db) {
+    public InMemoryCategoryReader(InMemoryCategoryDB db) {
         this.categories = db.getDB();
     }
 

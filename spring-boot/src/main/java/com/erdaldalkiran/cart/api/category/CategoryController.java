@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Category> createCategory(@PathVariable UUID id) throws ExecutionException, InterruptedException {
+    public ResponseEntity<Category> getByID(@PathVariable UUID id) throws ExecutionException, InterruptedException {
         var category = reader.getByIDs(Collections.singletonList(id)).get();
         if (category.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -35,8 +36,18 @@ public class CategoryController {
         return ResponseEntity.ok(category.get(0));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Category>> getAll() throws ExecutionException, InterruptedException {
+        var categories = reader.getAll().get();
+        if (categories.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(categories);
+    }
+
     @PostMapping()
-    public ResponseEntity<Void> createCategory(@Valid @RequestBody CreateCategoryRequest request) {
+    public ResponseEntity<Void> create(@Valid @RequestBody CreateCategoryRequest request) {
         final var id = UUID.randomUUID();
         var command = new CreateCategoryCommand(id, Optional.ofNullable(request.getParentID()) , request.getTitle());
         command.execute(pipeline);
