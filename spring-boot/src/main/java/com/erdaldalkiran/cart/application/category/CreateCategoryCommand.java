@@ -16,15 +16,17 @@ public class CreateCategoryCommand implements Command<CompletableFuture<Voidy>> 
     @NotNull
     private final UUID id;
 
+    @NotNull
     private final Optional<UUID> parentCategoryID;
 
     @NotBlank
     private final String title;
 
-    public CreateCategoryCommand(UUID id, Optional<UUID> parentCategoryID, String title) {
+    public CreateCategoryCommand(@NotNull UUID id,
+                                 @NotNull Optional<UUID> parentCategoryID,
+                                 @NotBlank String title) {
         this.id = id;
         this.parentCategoryID = parentCategoryID;
         this.title = title;
     }
-
 }

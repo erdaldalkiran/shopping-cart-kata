@@ -13,14 +13,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateProductRequest {
-//    @NotBlank
+    @NotBlank
     private String title;
 
-//    @NotNull
-//    @Positive
+    @NotNull
+    @Positive
     private BigDecimal price;
 
-//    @NotNull
+    @NotNull
     private UUID categoryID;
 
 }

@@ -1,10 +1,13 @@
 package com.erdaldalkiran.cart.domain.discount;
 
-public enum DiscountType {
-    Rate(1,"rate"), Amount(2,"amount");
+import lombok.Getter;
 
-    private int value;
-    private String name;
+@Getter
+public enum DiscountType {
+    None(0, "none"), Rate(1,"rate"), Amount(2,"amount");
+
+    private final int value;
+    private final String name;
 
     DiscountType(int value, String name ) {
         this.value = value;

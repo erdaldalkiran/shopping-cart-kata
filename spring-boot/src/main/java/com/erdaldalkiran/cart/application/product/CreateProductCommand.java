@@ -28,7 +28,10 @@ public class CreateProductCommand implements Command<CompletableFuture<Voidy>> {
     @NotNull
     private final UUID categoryID;
 
-    public CreateProductCommand(UUID id, String title, BigDecimal price, UUID categoryID) {
+    public CreateProductCommand(@NotNull UUID id,
+                                @NotBlank String title,
+                                @NotNull @Positive BigDecimal price,
+                                @NotNull UUID categoryID) {
         this.id = id;
         this.title = title;
         this.price = price;
