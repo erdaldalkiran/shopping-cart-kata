@@ -25,7 +25,7 @@ public class CreateCouponCommand implements Command<CompletableFuture<Voidy>> {
 
     @NotNull
     @OnlyValidDiscountTypes
-    private DiscountType type;
+    private DiscountType discountType;
 
     @NotNull
     @Positive
@@ -33,11 +33,11 @@ public class CreateCouponCommand implements Command<CompletableFuture<Voidy>> {
 
     public CreateCouponCommand(@NotNull UUID id,
                                @NotNull @Positive BigDecimal minimumCartAmount,
-                               @NotNull DiscountType type,
+                               @NotNull DiscountType discountType,
                                @NotNull @Positive BigDecimal rate) {
         this.id = id;
         this.minimumCartAmount = minimumCartAmount;
-        this.type = type;
+        this.discountType = discountType;
         this.rate = rate;
     }
 }
