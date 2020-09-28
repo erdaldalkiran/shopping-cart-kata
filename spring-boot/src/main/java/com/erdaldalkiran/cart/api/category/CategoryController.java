@@ -7,6 +7,7 @@ import com.erdaldalkiran.cart.domain.category.CategoryReader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> createCategory(@RequestBody CreateCategoryRequest request) {
+    public ResponseEntity<Void> createCategory(@Valid @RequestBody CreateCategoryRequest request) {
         final var id = UUID.randomUUID();
         var command = new CreateCategoryCommand(id, Optional.ofNullable(request.getParentID()) , request.getTitle());
         command.execute(pipeline);
